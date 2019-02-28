@@ -131,10 +131,5 @@
 		<error-code>404</error-code>
 		<location>/public/error</location>
 	</error-page>
-	
-
-	<welcome-file-list>
-		<welcome-file>/WEB-INF/pages/login.jsp</welcome-file>
-	</welcome-file-list>
 
 </web-app>

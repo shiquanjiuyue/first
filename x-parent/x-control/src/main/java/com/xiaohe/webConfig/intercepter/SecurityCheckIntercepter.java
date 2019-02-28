@@ -35,10 +35,12 @@ public class SecurityCheckIntercepter implements HandlerInterceptor {
 		HandlerMethod handlerMethod = (HandlerMethod) handler;  
 		// 获取拦截的方法对象
 		Method method = handlerMethod.getMethod();
-		if(method.isAnnotationPresent(HavePermission.class)){ // 如果是打上了权限校验标签的方法则将其拦截
+		// 如果是打上了权限校验标签的方法则将其拦截
+		if(method.isAnnotationPresent(HavePermission.class)){
 			// 获取该方法的权限表达式
 			String expression = PermissionUtil.createExpression(method);
-			if(permissions.contains(expression)){ // 若果该用户的权限表达式集合中有该权限则放行
+			// 若果该用户的权限表达式集合中有该权限则放行
+			if(permissions.contains(expression)){
 				return true;
 			}
 		}
