@@ -16,5 +16,5 @@
     <context:annotation-config/> 
     <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/> 
     <!-- 扫描注入 -->
-	<context:component-scan base-package="com.xiaohe.common.utils.springInit,com.xiaohe.service.impl,com.xiaohe.webConfig"/>
+	<context:component-scan base-package="com.xiaohe.common.utils.springinit,com.xiaohe.service.impl,com.xiaohe.webConfig"/>
 </beans>

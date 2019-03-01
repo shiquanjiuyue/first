@@ -1,4 +1,4 @@
-package com.xiaohe.common.utils.springInit;
+package com.xiaohe.common.utils.springinit;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -14,7 +14,7 @@ public class ApplicationContextUtil implements ApplicationContextAware {
 	
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
-		this.applicationcontext = arg0;
+		applicationcontext = arg0;
 	}
 	
 	/** 获取spring上下文对象 */
