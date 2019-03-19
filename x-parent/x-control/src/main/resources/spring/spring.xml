@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd    
+            http://www.springframework.org/schema/context    
+            http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+    
+    <!-- 加载配置文件 -->          
+    <context:property-placeholder location="classpath:config/config.properties"/>
+    
+    <context:annotation-config/> 
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/> 
+    <!-- 扫描注入 -->
+	<context:component-scan base-package="com.xiaohe.common.utils.springinit,com.xiaohe.service.impl,com.xiaohe.webconfig"/>
+    <import resource="classpath:spring/spring-jpa.xml"/>
+    <import resource="classpath:spring/spring-mvc.xml"/>
+    <import resource="classpath:spring/elasticJob-config.xml"/>
+</beans>

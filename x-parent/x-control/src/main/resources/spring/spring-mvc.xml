@@ -13,7 +13,7 @@
 	<context:component-scan base-package="com.xiaohe.control" />
 	
 	<!-- 加载配置文件，注意如果spring与spring中如果要使用就必须都配置该项 -->
-	<context:property-placeholder location="classpath:config.properties"/>
+	<context:property-placeholder location="classpath:config/config.properties"/>
 	
 	<!-- 以下为SpringMVC配置 -->
 	<!-- 必须放在<mvc:annotation-driven>之前 -->
@@ -102,12 +102,12 @@
 		<!-- 登入session校验拦截器 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/x/**" />
-			<bean class="com.xiaohe.webConfig.intercepter.LoginIntercepter"></bean>
+			<bean class="com.xiaohe.webconfig.intercepter.LoginIntercepter"></bean>
 		</mvc:interceptor>
 		<!-- 访问权限校验拦截器 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/x/**" />
-			<bean class="com.xiaohe.webConfig.intercepter.SecurityCheckIntercepter"></bean>
+			<bean class="com.xiaohe.webconfig.intercepter.SecurityCheckIntercepter"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
 </beans>  

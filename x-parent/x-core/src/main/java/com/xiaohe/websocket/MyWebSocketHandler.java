@@ -1,12 +1,17 @@
 package com.xiaohe.websocket;
 
 import java.util.Date;
+import java.util.concurrent.locks.ReentrantLock;
+
+import org.apache.log4j.Logger;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelId;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -24,13 +29,17 @@ import io.netty.util.CharsetUtil;
 /**
  * 接收/处理/响应客户端websocket请求的核心业务处理类
  *
- * @author liuyazhuang
+ * @author xiezhaohe
+ * @since 2019/3/5 20:52
  */
 public class MyWebSocketHandler extends SimpleChannelInboundHandler<Object> {
 
+    private static Logger logger = Logger.getLogger(MyWebSocketHandler.class);
+
+    private ReentrantLock lock = new ReentrantLock();
+
     private WebSocketServerHandshaker handshaker;
     private static final String WEB_SOCKET_URL = "ws://localhost:8888/websocket";
-
     /**
      * 客户端与服务端创建连接的时候调用
      * @param ctx
@@ -38,8 +47,15 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<Object> {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        NettyConfig.group.add(ctx.channel());
-        System.out.println("客户端与服务端连接开启...");
+        lock.lock();
+        if (NettyConfig.maxConnection < NettyConfig.group.size()) {
+            lock.unlock();
+            logger.warn("拒绝建立连接，websocket连接数量已达到最大值！");
+        } else {
+            NettyConfig.group.add(ctx.channel());
+            logger.info("客户端与服务端连接开启，当前websocket连接数：" + NettyConfig.group.size());
+            lock.unlock();
+        }
     }
 
     /**
@@ -85,6 +101,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<Object> {
         //判断是否是关闭websocket的指令
         if (frame instanceof CloseWebSocketFrame) {
             handshaker.close(ctx.channel(), (CloseWebSocketFrame) frame.retain());
+            return;
         }
         //判断是否是ping消息
         if (frame instanceof PingWebSocketFrame) {
@@ -94,17 +111,19 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<Object> {
 
         //判断是否是二进制消息，如果是二进制消息，抛出异常
         if (!(frame instanceof TextWebSocketFrame)) {
-            System.out.println("目前我们不支持二进制消息");
+            logger.error("目前我们不支持二进制消息");
             throw new RuntimeException("【" + this.getClass().getName() + "】不支持消息");
         }
         //返回应答消息
         //获取客户端向服务端发送的消息
         String request = ((TextWebSocketFrame) frame).text();
-        System.out.println("服务端收到客户端的消息====>>>" + request);
+        logger.info("服务端收到客户端的消息====>>>" + request);
         TextWebSocketFrame tws = new TextWebSocketFrame(
             new Date().toString() + ctx.channel().id() + " ===>>> " + request);
         //群发，服务端向每个连接上来的客户端群发消息
-        NettyConfig.group.writeAndFlush(tws);
+//        NettyConfig.group.writeAndFlush(tws);
+        //单独向发送发送消息的客服端回复消息
+        ctx.channel().writeAndFlush(tws);
     }
 
     /**

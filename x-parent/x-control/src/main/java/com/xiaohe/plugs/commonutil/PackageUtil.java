@@ -1,4 +1,4 @@
-package com.xiaohe.plugs.commonUtil;
+package com.xiaohe.plugs.commonutil;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +11,12 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-/** 类工具 */
+/**
+ * 类工具
+ *
+ * @author xiezhaohe
+ * @since 2019/3/7 20:35
+ */
 public class PackageUtil {
 
 	public static void main(String[] args) throws Exception {
@@ -62,7 +67,7 @@ public class PackageUtil {
 	/**
 	 * 从项目文件获取某包下所有类
 	 * @param filePath 文件路径
-	 * @param className 类名集合
+	 * @param packageName 包路径
 	 * @param isRecursion 是否遍历子包
 	 * @return 类的完整名称
 	 */
@@ -92,7 +97,7 @@ public class PackageUtil {
 	 * @return
 	 */
 	private static Set<String> getClassNameFromJar(Enumeration<JarEntry> jarEntries, String packageName, boolean isRecursion) {
-		Set<String> classNames = new HashSet<String>();
+		Set<String> classNames = new HashSet<>();
 
 		while (jarEntries.hasMoreElements()) {
 			JarEntry jarEntry = jarEntries.nextElement();

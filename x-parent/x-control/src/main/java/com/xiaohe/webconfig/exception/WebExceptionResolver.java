@@ -1,4 +1,4 @@
-package com.xiaohe.webConfig.exception;
+package com.xiaohe.webconfig.exception;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,4 +1,4 @@
-package com.xiaohe.webConfig.intercepter;
+package com.xiaohe.webconfig.intercepter;
 
 import java.lang.reflect.Method;
 import java.util.Set;

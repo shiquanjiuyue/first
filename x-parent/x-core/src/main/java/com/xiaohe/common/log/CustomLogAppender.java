@@ -26,6 +26,8 @@ public class CustomLogAppender extends FileAppender {
 	private int maxBackupIndex = 2;
 	/** 文件名+上次最后更新时间 */
 	private String scheduledFilename;
+	/** 文件大小最大值 */
+	private String maxFileSize;
 
 	/**
 	 * The next time we estimate a rollover should occur.
@@ -209,5 +211,13 @@ public class CustomLogAppender extends FileAppender {
 
 	public String getDatePattern() {
 		return datePattern;
+	}
+
+	public String getMaxFileSize() {
+		return maxFileSize;
+	}
+
+	public void setMaxFileSize(String maxFileSize) {
+		this.maxFileSize = maxFileSize;
 	}
 }
